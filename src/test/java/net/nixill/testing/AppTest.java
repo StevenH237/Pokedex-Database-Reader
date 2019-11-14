@@ -5,6 +5,8 @@ import java.util.Map.Entry;
 import net.nixill.pokemon.database.DBConnection;
 import net.nixill.pokemon.objects.Generation;
 import net.nixill.pokemon.objects.Language;
+import net.nixill.pokemon.objects.PokemonHabitat;
+import net.nixill.pokemon.objects.PokemonSpecies;
 import net.nixill.pokemon.objects.factory.DBObjectReader;
 import net.nixill.pokemon.objects.factory.DBObjectReaders;
 
@@ -25,6 +27,7 @@ public class AppTest {
     
     // langTest(langReader);
     // genTest();
+    speciesTest((int) (Math.random() * 807));
   }
   
   public static void langTest(DBObjectReader<Language> langReader) {
@@ -55,6 +58,21 @@ public class AppTest {
     }
   }
   
+  public static void speciesTest(int id) {
+    PokemonSpecies species = DBObjectReader.get(PokemonSpecies.class, id);
+    
+    System.out.println("Identifier: " + species.getIdentifier());
+    System.out.println("Name in English: " + species.getName(ENGLISH));
+    System.out.println("Genus: " + species.getGenus(ENGLISH));
+    System.out.println("Color: " + species.getColor().getName(ENGLISH));
+    PokemonHabitat hab = species.getHabitat();
+    if (hab != null) {
+      System.out.println("Habitat: " + hab.getName(ENGLISH));
+    } else {
+      System.out.println("Habitat: null");
+    }
+  }
+  
   /*
    * public static void main(String[] args) { DBConnection.init();
    * 
@@ -65,7 +83,7 @@ public class AppTest {
    * System.out.println("  Identifier: " + pkmn.getIdentifier());
    * System.out.println("  Height: " + pkmn.getHeight() * 0.1 + " m");
    * System.out.println("  Weight: " + pkmn.getWeight() * 0.1 + " kg");
-   * System.out .println("  Base experience yield: " +
+   * System.out.println("  Base experience yield: " +
    * pkmn.getBaseExperience());
    * 
    * System.out.println("Information on its abilities:");

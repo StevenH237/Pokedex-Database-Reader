@@ -1,24 +1,40 @@
 package net.nixill.pokemon.objects;
 
+import lombok.Getter;
+
 /**
  * Represents the function of a {@link GrowthRate}, up to a specific level.
  */
 public class GrowthRateFunction {
-  private GrowthRate growthRate;
-  private int        maxLevel;
+  @Getter
+  private final GrowthRate growthRate;
+  @Getter
+  private final int        maxLevel;
   
   // These ints are variables in the function
+  @Getter
   private int a;
+  @Getter
   private int b;
+  @Getter
   private int c;
+  @Getter
   private int d;
+  @Getter
   private int e;
+  @Getter
   private int f;
+  @Getter
   private int g;
+  @Getter
   private int h;
+  @Getter
   private int i;
+  @Getter
   private int j;
+  @Getter
   private int k;
+  @Getter
   private int l;
   
   public GrowthRateFunction(GrowthRate growthRate, int maxLevel, int a,
@@ -43,61 +59,5 @@ public class GrowthRateFunction {
   public int calculate(int x) {
     return (((a * x + b) / c + d) * x * x * x / e + f * x * x / g
         + h * x / i + j) * k / l;
-  }
-  
-  public GrowthRate getGrowthRate() {
-    return growthRate;
-  }
-  
-  public int getMaxLevel() {
-    return maxLevel;
-  }
-  
-  public int getA() {
-    return a;
-  }
-  
-  public int getB() {
-    return b;
-  }
-  
-  public int getC() {
-    return c;
-  }
-  
-  public int getD() {
-    return d;
-  }
-  
-  public int getE() {
-    return e;
-  }
-  
-  public int getF() {
-    return f;
-  }
-  
-  public int getG() {
-    return g;
-  }
-  
-  public int getH() {
-    return h;
-  }
-  
-  public int getI() {
-    return i;
-  }
-  
-  public int getJ() {
-    return j;
-  }
-  
-  public int getK() {
-    return k;
-  }
-  
-  public int getL() {
-    return l;
   }
 }

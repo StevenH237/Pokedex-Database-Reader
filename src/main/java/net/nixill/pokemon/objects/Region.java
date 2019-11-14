@@ -20,8 +20,4 @@ public class Region extends DBObject {
   public String getName(Language lang) {
     return names.get(lang);
   }
-  
-  public String toString() {
-    return names.get(Language.ENGLISH);
-  }
 }

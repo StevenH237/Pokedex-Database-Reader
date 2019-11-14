@@ -3,12 +3,57 @@ package net.nixill.pokemon.objects;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import lombok.Getter;
+
 public class PokemonSpecies extends DBObject {
   private static HashMap<String, Class<?>> types;
   
   private static HashMap<Language, String> names;
   private static HashMap<Language, String> genera;
   private static HashMap<Language, String> formDescriptions;
+  
+  @Getter(lazy = true)
+  private final Generation     generation         = getProperty(
+      "generation_id", Generation.class);
+  @Getter(lazy = true)
+  private final int            evolutionChain     = getProperty(
+      "evolution_chain_id", int.class);
+  @Getter(lazy = true)
+  private final PokemonColor   color              = getProperty("color_id",
+      PokemonColor.class);
+  @Getter(lazy = true)
+  private final PokemonShape   shape              = getProperty("shape_id",
+      PokemonShape.class);
+  @Getter(lazy = true)
+  private final PokemonHabitat habitat            = getProperty(
+      "habitat_id", PokemonHabitat.class);
+  @Getter(lazy = true)
+  private final int            genderRate         = getProperty(
+      "gender_rate", int.class);
+  @Getter(lazy = true)
+  private final int            captureRate        = getProperty(
+      "capture_rate", int.class);
+  @Getter(lazy = true)
+  private final int            baseHappiness      = getProperty(
+      "base_happiness", int.class);
+  @Getter(lazy = true)
+  private final boolean        baby               = getProperty("is_baby",
+      boolean.class);
+  @Getter(lazy = true)
+  private final int            hatchCounter       = getProperty(
+      "hatch_counter", int.class);
+  @Getter(lazy = true)
+  private final boolean        differentPerGender = getProperty(
+      "has_gender_differences", boolean.class);
+  @Getter(lazy = true)
+  private final GrowthRate     growthRate         = getProperty(
+      "growth_rate_id", GrowthRate.class);
+  @Getter(lazy = true)
+  private final boolean        formSwitchable     = getProperty(
+      "forms_switchable", boolean.class);
+  @Getter(lazy = true)
+  private final int            order              = getProperty("order",
+      int.class);
   
   static {
     types = new HashMap<>();
@@ -54,9 +99,5 @@ public class PokemonSpecies extends DBObject {
   
   public String getFormDescription(Language lang) {
     return formDescriptions.get(lang);
-  }
-  
-  public String toString() {
-    return names.get(Language.ENGLISH);
   }
 }

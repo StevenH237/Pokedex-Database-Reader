@@ -3,10 +3,14 @@ package net.nixill.pokemon.objects;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import lombok.Getter;
+
 public class Generation extends DBObject {
   private static HashMap<String, Class<?>> types;
   
-  private Region                    mainRegion;
+  @Getter(lazy = true)
+  private final Region              mainRegion = getProperty(
+      "main_region_id", Region.class);
   private HashMap<Language, String> names;
   
   static {
@@ -22,19 +26,10 @@ public class Generation extends DBObject {
   public void complete(ResultSet res) {
     if (complete(res, types)) {
       names = getLangTable("generation_names", "generation_id", "name");
-      mainRegion = (Region) getProperty("main_region_id");
     }
-  }
-  
-  public Region getMainRegion() {
-    return (Region) mainRegion.complete();
   }
   
   public String getName(Language lang) {
     return names.get(lang);
-  }
-  
-  public String toString() {
-    return getName(Language.ENGLISH);
   }
 }

@@ -1,8 +1,12 @@
 package net.nixill.pokemon.objects;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
 
 public class PokemonShape extends DBObject {
+  private HashMap<Language, String> names;
+  private HashMap<Language, String> awesomeNames;
+  private HashMap<Language, String> descriptions;
   
   public PokemonShape(int id, String identifier) {
     super(id, identifier);
@@ -11,23 +15,24 @@ public class PokemonShape extends DBObject {
   @Override
   public void complete(ResultSet res) {
     if (complete(res, null)) {
-      getLangTable("pokemon_shape_prose", "pokemon_shape_id", "name");
-      getLangTable("pokemon_shape_prose", "pokemon_shape_id",
-          "awesome_name");
-      getLangTable("pokemon_shape_prose", "pokemon_shape_id",
-          "description");
+      names = getLangTable("pokemon_shape_prose", "pokemon_shape_id",
+          "name");
+      awesomeNames = getLangTable("pokemon_shape_prose",
+          "pokemon_shape_id", "awesome_name");
+      descriptions = getLangTable("pokemon_shape_prose",
+          "pokemon_shape_id", "description");
     }
   }
   
   public String getName(Language lang) {
-    return getLanguageValue("pokemon_shape_prose.name", lang);
+    return names.get(lang);
   }
   
   public String getAwesomeName(Language lang) {
-    return getLanguageValue("pokemon_shape_prose.awesome_name", lang);
+    return awesomeNames.get(lang);
   }
   
   public String getDescription(Language lang) {
-    return getLanguageValue("pokemon_shape_prose.description", lang);
+    return descriptions.get(lang);
   }
 }

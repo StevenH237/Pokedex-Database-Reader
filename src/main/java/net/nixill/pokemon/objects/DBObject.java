@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lombok.Getter;
 import net.nixill.pokemon.database.DBConnection;
 import net.nixill.pokemon.database.DBException;
 import net.nixill.pokemon.database.LangStatements;
@@ -17,31 +18,16 @@ public abstract class DBObject {
   protected HashMap<String, Object>                    properties = new HashMap<>();
   protected HashMap<String, HashMap<Language, String>> langTables = new HashMap<>();
   
+  @Getter
   protected int     id;
+  @Getter
   protected String  identifier;
+  @Getter
   protected boolean isComplete = false;
   
   public DBObject(int id, String identifier) {
     this.id = id;
     this.identifier = identifier;
-  }
-  
-  /**
-   * Gets the numeric ID of this object.
-   * 
-   * @return The id
-   */
-  public int getId() {
-    return id;
-  }
-  
-  /**
-   * Gets the textual identifier of this object.
-   * 
-   * @return The identifier
-   */
-  public String getIdentifier() {
-    return identifier;
   }
   
   /**
@@ -86,9 +72,7 @@ public abstract class DBObject {
    * @return <tt>true</tt> iff they're the same class and same id.
    */
   public boolean equals(Object other) {
-    if (other.getClass() != getClass()) {
-      return false;
-    }
+    if (other.getClass() != getClass()) { return false; }
     
     DBObject oth = (DBObject) other;
     
@@ -121,9 +105,7 @@ public abstract class DBObject {
    */
   protected boolean complete(ResultSet res,
       HashMap<String, Class<?>> props) {
-    if (isComplete) {
-      return false;
-    }
+    if (isComplete) { return false; }
     
     try {
       // Make sure the row actually corresponds to the object calling it
@@ -166,10 +148,6 @@ public abstract class DBObject {
     return true;
   }
   
-  public boolean isComplete() {
-    return isComplete;
-  }
-  
   protected DBObject complete() {
     if (!isComplete) {
       DBObjectReader.completes(this);
@@ -199,7 +177,7 @@ public abstract class DBObject {
     HashMap<Language, String> out = new HashMap<>();
     try {
       while (res.next()) {
-        String str = res.getString("name");
+        String str = res.getString(nameColumn);
         Language lang = DBObjectReader.getShallow(Language.class,
             res.getInt("local_language_id"));
         out.put(lang, str);

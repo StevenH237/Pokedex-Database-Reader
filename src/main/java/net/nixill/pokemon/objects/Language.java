@@ -3,13 +3,8 @@ package net.nixill.pokemon.objects;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
-import net.nixill.pokemon.objects.factory.DBObjectReader;
-
 public class Language extends DBObject {
   private static HashMap<String, Class<?>> types;
-  
-  public static final Language ENGLISH = DBObjectReader
-      .getShallow(Language.class, "en");
   
   static {
     types = new HashMap<>();
@@ -34,9 +29,5 @@ public class Language extends DBObject {
   public String getName(Language lang) {
     complete();
     return names.get(lang);
-  }
-  
-  public String toString() {
-    return getName(Language.ENGLISH);
   }
 }
