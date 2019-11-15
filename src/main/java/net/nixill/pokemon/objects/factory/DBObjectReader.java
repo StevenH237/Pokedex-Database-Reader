@@ -35,10 +35,10 @@ public class DBObjectReader<O extends DBObject> {
   
   private IDStatements idStatements;
   
-  static <O extends DBObject> boolean initReader(Class<O> cls,
-      String name) {
+  static <O extends DBObject> boolean initReader(Class<O> cls, String name,
+      boolean identifiers) {
     if (!readers.containsKey(cls)) {
-      new DBObjectReader<>(name, cls);
+      new DBObjectReader<>(name, cls, identifiers);
       return true;
     } else {
       return false;
@@ -104,6 +104,8 @@ public class DBObjectReader<O extends DBObject> {
    * @param identifier
    *   The identifier of the object to get.
    * @return The object of that type and identifier.
+   * @throws NullPointerException
+   *   if the object doesn't use textual identifiers.
    */
   public static <O extends DBObject> O get(Class<O> cls,
       String identifier) {
@@ -125,6 +127,8 @@ public class DBObjectReader<O extends DBObject> {
    * @param id
    *   The id of the object to get.
    * @return The object of that type and ID.
+   * @throws NullPointerException
+   *   if the object doesn't use textual identifiers.
    */
   public static <O extends DBObject> O getShallow(Class<O> cls,
       String identifier) {
@@ -138,35 +142,52 @@ public class DBObjectReader<O extends DBObject> {
    *   The singular name of the base table.
    * @param classRef
    *   The class of the object the reader produces.
+   * @param identifiers
+   *   Whether or not objects of this class have identifiers.
    */
-  private DBObjectReader(String singular, Class<O> classRef) {
+  private DBObjectReader(String singular, Class<O> classRef,
+      boolean identifiers) {
     tableName = singular;
     cls = classRef;
     try {
-      cnstr = cls.getDeclaredConstructor(int.class, String.class);
+      if (identifiers) {
+        cnstr = cls.getDeclaredConstructor(int.class, String.class);
+      } else {
+        cnstr = cls.getDeclaredConstructor(int.class);
+      }
     } catch (NoSuchMethodException | SecurityException e) {
       throw (NullPointerException) (new NullPointerException()
           .initCause(e));
     }
     
-    idStatements = DBConnection.prepareIDStatements(tableName);
+    idStatements = DBConnection.prepareIDStatements(tableName,
+        identifiers);
     
     ResultSet res = idStatements.getAllIDs();
     
     idPool = new HashMap<>();
-    identPool = new HashMap<>();
+    if (identifiers) {
+      identPool = new HashMap<>();
+    } else {
+      identPool = null;
+    }
     
     // Index all the objects we have
     try {
       cnstr.setAccessible(true);
       while (res.next()) {
         int id = res.getInt("id");
-        String identifier = res.getString("identifier");
+        O obj;
         
-        O obj = cnstr.newInstance(id, identifier);
+        if (identifiers) {
+          String identifier = res.getString("identifier");
+          obj = cnstr.newInstance(id, identifier);
+          identPool.put(identifier, obj);
+        } else {
+          obj = cnstr.newInstance(id);
+        }
         
         idPool.put(id, obj);
-        identPool.put(identifier, obj);
       }
       cnstr.setAccessible(false);
       res.close();
@@ -225,9 +246,11 @@ public class DBObjectReader<O extends DBObject> {
    * @param identifier
    *   The textual identifier.
    * @return The object in question.
+   * @throws NullPointerException
+   *   if the object doesn't use textual identifiers.
    */
   public O get(String identifier) {
-    O obj = identPool.get(identifier);
+    O obj = getShallow(identifier);
     obj.complete(idStatements.getByIdentifier(identifier));
     return obj;
   }
@@ -242,6 +265,8 @@ public class DBObjectReader<O extends DBObject> {
    * @param identifier
    *   The textual identifier.
    * @return The Pokemon in question.
+   * @throws NullPointerException
+   *   if the object doesn't use textual identifiers.
    */
   public O getShallow(String identifier) {
     return identPool.get(identifier);

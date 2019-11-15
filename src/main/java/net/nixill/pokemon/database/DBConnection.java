@@ -35,8 +35,9 @@ public class DBConnection {
     return stmt.executeQuery(sql);
   }
   
-  public static IDStatements prepareIDStatements(String tableName) {
-    IDStatements ids = new IDStatements(tableName, conn);
+  public static IDStatements prepareIDStatements(String tableName,
+      boolean withIdentifiers) {
+    IDStatements ids = new IDStatements(tableName, conn, withIdentifiers);
     idses.add(ids);
     return ids;
   }

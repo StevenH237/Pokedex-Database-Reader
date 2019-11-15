@@ -3,6 +3,7 @@ package net.nixill.testing;
 import java.util.Map.Entry;
 
 import net.nixill.pokemon.database.DBConnection;
+import net.nixill.pokemon.objects.EvolutionChain;
 import net.nixill.pokemon.objects.Generation;
 import net.nixill.pokemon.objects.Language;
 import net.nixill.pokemon.objects.PokemonHabitat;
@@ -27,7 +28,8 @@ public class AppTest {
     
     // langTest(langReader);
     // genTest();
-    speciesTest((int) (Math.random() * 807));
+    // speciesTest((int) (Math.random() * 807));
+    evolutionTest((int) (Math.random() * 807));
   }
   
   public static void langTest(DBObjectReader<Language> langReader) {
@@ -70,6 +72,24 @@ public class AppTest {
       System.out.println("Habitat: " + hab.getName(ENGLISH));
     } else {
       System.out.println("Habitat: null");
+    }
+  }
+  
+  public static void evolutionTest(int id) {
+    PokemonSpecies species = DBObjectReader.get(PokemonSpecies.class, id);
+    
+    System.out.println("Selected Pokémon: " + species.getName(ENGLISH));
+    
+    EvolutionChain evo = species.getEvolutionChain();
+    
+    System.out.println("Evolution chain id: " + evo.getId());
+    System.out
+        .println("Baby trigger item id: " + evo.getBabyTriggerItemId());
+    System.out.println("Contains:");
+    
+    for (PokemonSpecies spec : evo.getMembers()) {
+      System.out.println(
+          "  " + spec.getName(ENGLISH) + " (" + spec.getId() + ")");
     }
   }
   

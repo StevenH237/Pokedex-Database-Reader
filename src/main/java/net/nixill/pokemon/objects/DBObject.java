@@ -109,8 +109,8 @@ public abstract class DBObject {
     
     try {
       // Make sure the row actually corresponds to the object calling it
-      if (id != res.getInt("id")
-          || !identifier.equals(res.getString("identifier"))) {
+      if (id != res.getInt("id") || (identifier != null
+          && !identifier.equals(res.getString("identifier")))) {
         throw new IllegalArgumentException(
             "Row retrieved doesn't correspond to object.");
       }

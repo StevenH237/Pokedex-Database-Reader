@@ -1,6 +1,7 @@
 package net.nixill.pokemon.objects.factory;
 
 import net.nixill.pokemon.objects.DBObject;
+import net.nixill.pokemon.objects.EvolutionChain;
 import net.nixill.pokemon.objects.Generation;
 import net.nixill.pokemon.objects.GrowthRate;
 import net.nixill.pokemon.objects.Language;
@@ -13,21 +14,33 @@ import net.nixill.pokemon.objects.Region;
 public class DBObjectReaders {
   private static boolean initialized;
   
-  public static <O extends DBObject> void init(Class<O> cls, String name) {
-    DBObjectReader.initReader(cls, name);
+  private static <O extends DBObject> void init(Class<O> cls,
+      String name) {
+    DBObjectReader.initReader(cls, name, true);
+  }
+  
+  private static <O extends DBObject> void init(Class<O> cls, String name,
+      boolean identifiers) {
+    DBObjectReader.initReader(cls, name, identifiers);
   }
   
   public static void init() {
     if (!initialized) {
       init(Language.class, "languages"); // needs to be first
       // init(Ability.class, "abilities");
-      // init(Berry.class, "berries");
+      // init(AbilityChange.class, "ability_changelog", false);
+      // init(Berry.class, "berries", false);
       // init(BerryFirmness.class, "berry_firmness");
+      // init(Characteristic.class, "characteristics", false);
+      // init(ContestEffect.class, "contest_effects", false);
       // init(ContestType.class, "contest_types");
       // init(EggGroup.class, "egg_groups");
       // init(EncounterConditionValue.class, "encounter_condition_values");
       // init(EncounterCondition.class, "encounter_conditions");
       // init(EncounterMethod.class, "encounter_methods");
+      // init(EncounterSlot.class, "encounter_slots", false);
+      // init(Encounter.class, "encounters", false);
+      init(EvolutionChain.class, "evolution_chains", false);
       // init(EvolutionTrigger.class, "evolution_triggers");
       // init(GameSeries.class, "game_series");
       // init(Gender.class, "genders");
@@ -43,6 +56,8 @@ public class DBObjectReaders {
       // init(Location.class, "locations");
       // init(MoveBattleStyle.class, "move_battle_styles");
       // init(MoveDamageClass.class, "move_damage_classes");
+      // init(MoveEffectChange.class, "move_effect_changelog", false);
+      // init(MoveEffect.class, "move_effect", false);
       // init(MoveFlag.class, "move_flags");
       // init(MoveMetaAilment.class, "move_meta_ailments");
       // init(MoveMetaCategory.class, "move_meta_categories");
@@ -61,7 +76,10 @@ public class DBObjectReaders {
       // init(PokemonType.class, "types");
       // init(Pokemon.class, "pokemon");
       init(Region.class, "regions");
+      // init(StarterPokemon.class, "starter_pokemon", false);
+      // init(StarterPokemonGroup.class, "starter_pokemon_groups");
       // init(Stat.class, "stats");
+      // init(SuperContestEffect.class, "super_contest_effects", false);
       // init(VersionGroup.class, "version_groups");
       // init(Version.class, "versions");
       

@@ -10,14 +10,19 @@ public class IDStatements {
   private PreparedStatement selectIdentifier;
   private PreparedStatement allIDs;
   
-  IDStatements(String name, Connection conn) {
+  IDStatements(String name, Connection conn, boolean withIdentifiers) {
     try {
       selectID = conn
           .prepareStatement("SELECT * FROM " + name + " WHERE id = ?;");
-      selectIdentifier = conn.prepareStatement(
-          "SELECT * FROM " + name + " WHERE identifier = ?;");
-      allIDs = conn
-          .prepareStatement("SELECT id, identifier FROM " + name + ";");
+      if (withIdentifiers) {
+        selectIdentifier = conn.prepareStatement(
+            "SELECT * FROM " + name + " WHERE identifier = ?;");
+        allIDs = conn
+            .prepareStatement("SELECT id, identifier FROM " + name + ";");
+      } else {
+        selectIdentifier = null;
+        allIDs = conn.prepareStatement("SELECT id FROM " + name + ";");
+      }
     } catch (SQLException ex) {
       throw new DBException(ex);
     }
