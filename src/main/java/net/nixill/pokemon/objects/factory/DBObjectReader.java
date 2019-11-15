@@ -4,8 +4,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -308,5 +310,60 @@ public class DBObjectReader<O extends DBObject> {
   
   public void complete(O obj) {
     obj.complete(idStatements.getByID(obj.getId()));
+  }
+  
+  /**
+   * Returns the first result of the query.
+   * <p>
+   * For the method to work properly, the first column of the output should
+   * either be the id column of this object's table, or a column
+   * referencing that.
+   * 
+   * @param sql
+   *   The statement to execute
+   * @return The object returned, or <tt>null</tt> if no object was
+   * returned.
+   */
+  public O resultOf(String sql) {
+    try {
+      ResultSet res = DBConnection.query(sql);
+      if (res.next()) {
+        int id = res.getInt(1);
+        res.close();
+        return get(id);
+      } else {
+        res.close();
+        return null;
+      }
+    } catch (SQLException ex) {
+      throw new DBException(ex);
+    }
+  }
+  
+  /**
+   * Returns the results of the query.
+   * <p>
+   * For the method to work properly, the first column of the output should
+   * either be the id column of this object's table, or a column
+   * referencing that.
+   * 
+   * @param sql
+   *   The statement to execute
+   * @return The objects returned, or an empty list if no objects were
+   * returned.
+   */
+  public List<O> resultsOf(String sql) {
+    try {
+      ResultSet res = DBConnection.query(sql);
+      List<O> out = new ArrayList<>();
+      while (res.next()) {
+        int id = res.getInt(1);
+        out.add(get(id));
+      }
+      res.close();
+      return Collections.unmodifiableList(out);
+    } catch (SQLException ex) {
+      throw new DBException(ex);
+    }
   }
 }

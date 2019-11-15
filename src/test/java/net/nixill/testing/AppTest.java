@@ -1,11 +1,13 @@
 package net.nixill.testing;
 
+import java.util.List;
 import java.util.Map.Entry;
 
 import net.nixill.pokemon.database.DBConnection;
 import net.nixill.pokemon.objects.EvolutionChain;
 import net.nixill.pokemon.objects.Generation;
 import net.nixill.pokemon.objects.Language;
+import net.nixill.pokemon.objects.Pokemon;
 import net.nixill.pokemon.objects.PokemonHabitat;
 import net.nixill.pokemon.objects.PokemonSpecies;
 import net.nixill.pokemon.objects.factory.DBObjectReader;
@@ -29,7 +31,8 @@ public class AppTest {
     // langTest(langReader);
     // genTest();
     // speciesTest((int) (Math.random() * 807));
-    evolutionTest((int) (Math.random() * 807));
+    // evolutionTest((int) (Math.random() * 807));
+    evolutionTest2((int) (Math.random() * 807));
   }
   
   public static void langTest(DBObjectReader<Language> langReader) {
@@ -93,28 +96,28 @@ public class AppTest {
     }
   }
   
-  /*
-   * public static void main(String[] args) { DBConnection.init();
-   * 
-   * ENGLISH = Language.getByIdentifier("en");
-   * 
-   * // Let's get details on Pokémon #133 Pokemon pkmn = Pokemon.get(133);
-   * System.out.println("Information on Pokémon 133:");
-   * System.out.println("  Identifier: " + pkmn.getIdentifier());
-   * System.out.println("  Height: " + pkmn.getHeight() * 0.1 + " m");
-   * System.out.println("  Weight: " + pkmn.getWeight() * 0.1 + " kg");
-   * System.out.println("  Base experience yield: " +
-   * pkmn.getBaseExperience());
-   * 
-   * System.out.println("Information on its abilities:");
-   * 
-   * PokemonSpecies species = pkmn.getSpecies(); System.out.println("");
-   * System.out.println("Information on its species:");
-   * System.out.println("  ID: " + species.getId());
-   * System.out.println("  Identifier: " + species.getIdentifier());
-   * System.out.println("  Name in English: " + species.getName(ENGLISH));
-   * System.out.println("  Genus: " + species.getGenus(ENGLISH));
-   * System.out.println("  Color: " + species.getColor().getName(ENGLISH));
-   * }
-   */
+  public static void evolutionTest2(int id) {
+    Pokemon pokemon = DBObjectReader.get(Pokemon.class, id);
+    
+    System.out.println("Selected Pokémon: " + pokemon.getIdentifier());
+    
+    Pokemon preEvo = pokemon.getPreEvolvedForm();
+    
+    if (preEvo != null) {
+      System.out.println("Evolves from: " + preEvo.getIdentifier());
+    } else {
+      System.out.println("Has no pre-evolution.");
+    }
+    
+    List<Pokemon> postEvos = pokemon.getEvolvedForms();
+    
+    if (!postEvos.isEmpty()) {
+      System.out.println("Evolves to:");
+      for (Pokemon postEvo : postEvos) {
+        System.out.println("  " + postEvo.getIdentifier());
+      }
+    } else {
+      System.out.println("Has no post-evolutions.");
+    }
+  }
 }

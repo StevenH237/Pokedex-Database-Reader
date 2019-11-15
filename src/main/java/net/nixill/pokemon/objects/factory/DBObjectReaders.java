@@ -5,6 +5,7 @@ import net.nixill.pokemon.objects.EvolutionChain;
 import net.nixill.pokemon.objects.Generation;
 import net.nixill.pokemon.objects.GrowthRate;
 import net.nixill.pokemon.objects.Language;
+import net.nixill.pokemon.objects.Pokemon;
 import net.nixill.pokemon.objects.PokemonColor;
 import net.nixill.pokemon.objects.PokemonHabitat;
 import net.nixill.pokemon.objects.PokemonShape;
@@ -74,7 +75,7 @@ public class DBObjectReaders {
       init(PokemonShape.class, "pokemon_shapes");
       init(PokemonSpecies.class, "pokemon_species");
       // init(PokemonType.class, "types");
-      // init(Pokemon.class, "pokemon");
+      init(Pokemon.class, "pokemon");
       init(Region.class, "regions");
       // init(StarterPokemon.class, "starter_pokemon", false);
       // init(StarterPokemonGroup.class, "starter_pokemon_groups");
