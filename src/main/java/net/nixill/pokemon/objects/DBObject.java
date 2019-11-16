@@ -18,7 +18,20 @@ public abstract class DBObject {
   protected HashMap<String, Object> properties = new HashMap<>();
   protected HashMap<String, HashMap<Language, String>> langTables = new HashMap<>();
   
+  /**
+   * The numeric internal identity for the object.
+   * 
+   * @return The id.
+   */
   @Getter protected int id;
+  /**
+   * The textual, human-readable identifier for the object.
+   * <p>
+   * Not all objects use identifiers.
+   * 
+   * @return The identifier, or <tt>null</tt> if the object doesn't have
+   * one.
+   */
   @Getter protected String identifier;
   @Getter protected boolean isComplete = false;
   
