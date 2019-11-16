@@ -29,11 +29,11 @@ import net.nixill.pokemon.objects.DBObject;
 public class DBObjectReader<O extends DBObject> {
   private static HashMap<Class<?>, DBObjectReader<?>> readers = new HashMap<>();
   
-  private Class<O>            cls;
-  private Constructor<O>      cnstr;
-  private String              tableName;
+  private Class<O> cls;
+  private Constructor<O> cnstr;
+  private String tableName;
   private HashMap<Integer, O> idPool;
-  private HashMap<String, O>  identPool;
+  private HashMap<String, O> identPool;
   
   private IDStatements idStatements;
   

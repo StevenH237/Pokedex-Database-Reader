@@ -15,15 +15,12 @@ import net.nixill.pokemon.objects.factory.DBObjectReader;
 
 @SuppressWarnings("unchecked")
 public abstract class DBObject {
-  protected HashMap<String, Object>                    properties = new HashMap<>();
+  protected HashMap<String, Object> properties = new HashMap<>();
   protected HashMap<String, HashMap<Language, String>> langTables = new HashMap<>();
   
-  @Getter
-  protected int     id;
-  @Getter
-  protected String  identifier;
-  @Getter
-  protected boolean isComplete = false;
+  @Getter protected int id;
+  @Getter protected String identifier;
+  @Getter protected boolean isComplete = false;
   
   public DBObject(int id, String identifier) {
     this.id = id;

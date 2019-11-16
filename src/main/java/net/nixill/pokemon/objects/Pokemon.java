@@ -10,32 +10,30 @@ import net.nixill.pokemon.objects.factory.DBObjectReader;
 public class Pokemon extends DBObject {
   private static HashMap<String, Class<?>> types;
   
-  @Getter(lazy = true)
-  private final PokemonSpecies species        = (PokemonSpecies) getProperty(
-      "species_id");
-  @Getter(lazy = true)
-  private final Pokemon        preEvolvedForm = (Pokemon) getProperty(
-      "evolves_from_pokemon_id");
-  @Getter(lazy = true)
-  private final int            height         = (int) getProperty(
-      "height");
-  @Getter(lazy = true)
-  private final int            weight         = (int) getProperty(
-      "weight");
-  @Getter(lazy = true)
-  private final int            baseExperience = (int) getProperty(
-      "base_experience");
-  @Getter(lazy = true)
-  private final int            order          = (int) getProperty("order");
-  @Getter(lazy = true)
-  private final boolean        isDefault      = (boolean) getProperty(
-      "is_default");
+  @Getter(
+    lazy = true) private final PokemonSpecies species = (PokemonSpecies) getProperty(
+        "species_id");
+  @Getter(
+    lazy = true) private final Pokemon preEvolvedForm = (Pokemon) getProperty(
+        "evolves_from_pokemon_id");
+  @Getter(
+    lazy = true) private final int height = (int) getProperty("height");
+  @Getter(
+    lazy = true) private final int weight = (int) getProperty("weight");
+  @Getter(
+    lazy = true) private final int baseExperience = (int) getProperty(
+        "base_experience");
+  @Getter(
+    lazy = true) private final int order = (int) getProperty("order");
+  @Getter(
+    lazy = true) private final boolean isDefault = (boolean) getProperty(
+        "is_default");
   
-  @Getter(lazy = true)
-  private final List<Pokemon> evolvedForms = DBObjectReader
-      .getReader(Pokemon.class)
-      .resultsOf("select id from pokemon where evolves_from_pokemon_id = "
-          + id + ";");
+  @Getter(
+    lazy = true) private final List<Pokemon> evolvedForms = DBObjectReader
+        .getReader(Pokemon.class).resultsOf(
+            "select id from pokemon where evolves_from_pokemon_id = " + id
+                + ";");
   
   static {
     types = new HashMap<>();

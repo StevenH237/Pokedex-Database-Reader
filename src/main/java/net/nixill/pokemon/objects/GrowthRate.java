@@ -10,7 +10,7 @@ import net.nixill.pokemon.database.DBException;
 // (((ax+b)/c+d)x³/e+fx²/g+hx/i+j)*k/l
 public class GrowthRate extends DBObject {
   private static TreeMap<Integer, GrowthRateFunction> functions;
-  private static TreeMap<Integer, Integer>            predefinedExperience;
+  private static TreeMap<Integer, Integer> predefinedExperience;
   
   public GrowthRate(int id, String identifier) {
     super(id, identifier);

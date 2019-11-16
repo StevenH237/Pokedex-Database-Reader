@@ -8,8 +8,7 @@ import lombok.Getter;
 public class Generation extends DBObject {
   private static HashMap<String, Class<?>> types;
   
-  @Getter(lazy = true)
-  private final Region              mainRegion = getProperty(
+  @Getter(lazy = true) private final Region mainRegion = getProperty(
       "main_region_id", Region.class);
   private HashMap<Language, String> names;
   

@@ -14,12 +14,12 @@ import net.nixill.pokemon.objects.factory.DBObjectReader;
 public class EvolutionChain extends DBObject {
   private static HashMap<String, Class<?>> props;
   
-  @Getter(lazy = true)
-  private final List<PokemonSpecies> members = makeMemberList();
+  @Getter(
+    lazy = true) private final List<PokemonSpecies> members = makeMemberList();
   
-  @Getter(lazy = true)
-  private final Integer babyTriggerItemId = (Integer) getProperty(
-      "baby_trigger_item_id");
+  @Getter(
+    lazy = true) private final Integer babyTriggerItemId = (Integer) getProperty(
+        "baby_trigger_item_id");
   
   static {
     props = new HashMap<>();
