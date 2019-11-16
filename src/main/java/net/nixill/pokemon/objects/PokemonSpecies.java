@@ -2,8 +2,10 @@ package net.nixill.pokemon.objects;
 
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.List;
 
 import lombok.Getter;
+import net.nixill.pokemon.objects.factory.DBObjectReader;
 
 public class PokemonSpecies extends DBObject {
   private static HashMap<String, Class<?>> types;
@@ -42,6 +44,16 @@ public class PokemonSpecies extends DBObject {
       "forms_switchable", boolean.class);
   @Getter(
     lazy = true) private final int order = getProperty("order", int.class);
+  
+  @Getter(
+    lazy = true) private final Pokemon defaultPokemon = DBObjectReader
+        .getReader(Pokemon.class)
+        .resultOf("SELECT id FROM pokemon WHERE species_id = " + id
+            + " AND is_default = 1;");
+  @Getter(
+    lazy = true) private final List<Pokemon> allPokemon = DBObjectReader
+        .getReader(Pokemon.class).resultsOf(
+            "SELECT id FROM pokemon WHERE species_id = " + id + ";");
   
   static {
     types = new HashMap<>();
