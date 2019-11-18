@@ -10,25 +10,42 @@ import net.nixill.pokemon.objects.factory.DBObjectReader;
 public class Pokemon extends DBObject {
   private static HashMap<String, Class<?>> types;
   
+  /** The {@link PokemonSpecies} of which this Pokemon is a member. */
   @Getter(
     lazy = true) private final PokemonSpecies species = (PokemonSpecies) getProperty(
         "species_id");
+  /**
+   * The Pokémon from which this Pokémon evolves, or <tt>null</tt> if
+   * there's no pre-evolved form.
+   */
   @Getter(
     lazy = true) private final Pokemon preEvolvedForm = (Pokemon) getProperty(
         "evolves_from_pokemon_id");
+  /** The height of this Pokémon, in decimeters (tenths of a meter). */
   @Getter(
     lazy = true) private final int height = (int) getProperty("height");
+  /**
+   * The weight of this Pokémon, in hectograms (hundreds of grams, or
+   * tenths of a kilogram).
+   */
   @Getter(
     lazy = true) private final int weight = (int) getProperty("weight");
+  /** The base experience yield of this Pokémon. */
   @Getter(
     lazy = true) private final int baseExperience = (int) getProperty(
         "base_experience");
+  /** A sorting order among Pokémon. */
   @Getter(
     lazy = true) private final int order = (int) getProperty("order");
+  /** Whether or not this Pokémon is the default form for the species. */
   @Getter(
     lazy = true) private final boolean isDefault = (boolean) getProperty(
         "is_default");
   
+  /**
+   * All the Pokémon that evolve from this one, or an empty list if there
+   * are no such Pokémon.
+   */
   @Getter(
     lazy = true) private final List<Pokemon> evolvedForms = DBObjectReader
         .getReader(Pokemon.class).resultsOf(

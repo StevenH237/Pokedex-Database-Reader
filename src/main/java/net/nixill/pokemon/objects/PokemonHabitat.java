@@ -3,10 +3,14 @@ package net.nixill.pokemon.objects;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+/**
+ * Represents possible habitats that Pokémon from the first three
+ * generations are classified into.
+ */
 public class PokemonHabitat extends DBObject {
   private HashMap<Language, String> names;
   
-  public PokemonHabitat(int id, String identifier) {
+  private PokemonHabitat(int id, String identifier) {
     super(id, identifier);
   }
   
@@ -18,6 +22,7 @@ public class PokemonHabitat extends DBObject {
     }
   }
   
+  /** Returns the name of this PokemonHabitat in a given language. */
   public String getName(Language lang) {
     return names.get(lang);
   }

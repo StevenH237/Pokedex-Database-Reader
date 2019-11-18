@@ -3,10 +3,13 @@ package net.nixill.pokemon.objects;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+/**
+ * Represents possible colors that Pokémon can be categorized as.
+ */
 public class PokemonColor extends DBObject {
   private HashMap<Language, String> names;
   
-  public PokemonColor(int id, String identifier) {
+  private PokemonColor(int id, String identifier) {
     super(id, identifier);
   }
   
@@ -18,6 +21,7 @@ public class PokemonColor extends DBObject {
     }
   }
   
+  /** Gets the name of this PokemonColor in the given Language. */
   public String getName(Language lang) {
     return names.get(lang);
   }
