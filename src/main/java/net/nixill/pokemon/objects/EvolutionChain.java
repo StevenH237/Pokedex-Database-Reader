@@ -11,14 +11,32 @@ import net.nixill.pokemon.database.DBConnection;
 import net.nixill.pokemon.database.DBException;
 import net.nixill.pokemon.objects.factory.DBObjectReader;
 
+/**
+ * An EvolutionChain is a group of {@link PokemonSpecies}, all related in
+ * that its members evolve into or from each other.
+ */
 public class EvolutionChain extends DBObject {
   private static HashMap<String, Class<?>> props;
   
+  /**
+   * The list of member {@link PokemonSpecies} of this EvolutionChain.
+   */
   @Getter(
     lazy = true) private final List<PokemonSpecies> members = makeMemberList();
   
+  /**
+   * The ID of the item that causes babies to be made.
+   * <p>
+   * More specifically, this is the item that either of the parents must
+   * hold in order to produce the baby species of an EvolutionChain from
+   * eggs instead of the basic species.
+   * <p>
+   * This property and method will be replaced with
+   * <tt>getBabyTriggerItem()</tt> when the <tt>Item</tt> class is made in
+   * a future version of the API.
+   */
   @Getter(
-    lazy = true) private final Integer babyTriggerItemId = (Integer) getProperty(
+    lazy = true) @Deprecated private final Integer babyTriggerItemId = (Integer) getProperty(
         "baby_trigger_item_id");
   
   static {
@@ -43,8 +61,6 @@ public class EvolutionChain extends DBObject {
               + id);
       while (res.next()) {
         int specId = res.getInt("id");
-        // System.out.println("Added species " + specId + " to chain " +
-        // id);
         out.add(DBObjectReader.get(PokemonSpecies.class, specId));
       }
       return out;

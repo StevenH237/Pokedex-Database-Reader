@@ -13,6 +13,15 @@ import net.nixill.pokemon.database.DBException;
 import net.nixill.pokemon.database.LangStatements;
 import net.nixill.pokemon.objects.factory.DBObjectReader;
 
+/**
+ * A DBObject is anything from the database that has its own id primary
+ * key.
+ * <p>
+ * Most also have an identifier, some properties, and maybe some names or
+ * descriptions. These properties can be accessed through the
+ * {@link #getProperty(String)} method, or through native methods on the
+ * subclasses.
+ */
 @SuppressWarnings("unchecked")
 public abstract class DBObject {
   protected HashMap<String, Object> properties = new HashMap<>();
@@ -24,6 +33,7 @@ public abstract class DBObject {
    * @return The id.
    */
   @Getter protected int id;
+  
   /**
    * The textual, human-readable identifier for the object.
    * <p>
@@ -33,6 +43,16 @@ public abstract class DBObject {
    * one.
    */
   @Getter protected String identifier;
+  
+  /**
+   * Returns whether this object has all its properties loaded.
+   * <p>
+   * A value of <tt>true</tt> means that the properties are all loaded from
+   * the database. A value of <tt>false</tt> makes this object just a
+   * placeholder until {@link #complete()} is used on it.
+   * 
+   * @return The completion status.
+   */
   @Getter protected boolean isComplete = false;
   
   public DBObject(int id, String identifier) {
@@ -101,10 +121,15 @@ public abstract class DBObject {
     return getClass().getSimpleName().hashCode() + id;
   }
   
+  /**
+   * Completes the
+   * 
+   * @param res
+   */
   public abstract void complete(ResultSet res);
   
   /**
-   * Asserts that a ResultSet corresponds to the proper item.
+   * Loads the properties of the object from the main table.
    * 
    * @param res
    *   The result set of the given item
@@ -158,7 +183,12 @@ public abstract class DBObject {
     return true;
   }
   
-  protected DBObject complete() {
+  /**
+   * Queries the main table to complete the object.
+   * 
+   * @return This object itself, for chaining.
+   */
+  public DBObject complete() {
     if (!isComplete) {
       DBObjectReader.completes(this);
     }
@@ -229,7 +259,17 @@ public abstract class DBObject {
     return Collections.unmodifiableMap(langTables.get(table));
   }
   
+  /**
+   * Returns a string representation of the object.
+   * <p>
+   * The representation is the class-name, followed by the identifier if
+   * one exists, or the id otherwise.
+   */
   public String toString() {
-    return identifier;
+    if (identifier == null) {
+      return getClass().getSimpleName() + " " + id;
+    } else {
+      return getClass().getSimpleName() + " " + identifier;
+    }
   }
 }

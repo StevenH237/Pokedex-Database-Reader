@@ -14,7 +14,7 @@ import net.nixill.pokemon.objects.factory.DBObjectReader;
 import net.nixill.pokemon.objects.factory.DBObjectReaders;
 
 /**
- * Use a simple program to test it
+ * Use a simple program to test the readers.
  */
 public class AppTest {
   private static Language ENGLISH;
