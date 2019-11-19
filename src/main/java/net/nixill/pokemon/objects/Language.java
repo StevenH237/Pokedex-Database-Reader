@@ -7,11 +7,10 @@ import lombok.Getter;
 import net.nixill.pokemon.objects.factory.DBObjectReader;
 
 /**
- * A <tt>Language</tt> object represents an example of a system that
- * consists of the development, acquisition, maintenance and use of complex
- * systems of communication, particularly the human ability to do so.
- * <p>
- * (Description copied from Wikipedia)
+ * A language is an example of a system used by humans to communicate,
+ * usually through writing or speaking, but can also be made using
+ * gestures, tones, or pictures. A Language object is a reference to such
+ * an example.
  */
 public class Language extends DBObject {
   private static HashMap<String, Class<?>> types;

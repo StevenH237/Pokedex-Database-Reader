@@ -7,6 +7,12 @@ import java.util.List;
 import lombok.Getter;
 import net.nixill.pokemon.objects.factory.DBObjectReader;
 
+/**
+ * An subclass of a PokemonSpecies instance. See {@link PokemonSpecies} for
+ * more details.
+ * 
+ * @see PokemonSpecies
+ */
 public class Pokemon extends DBObject {
   private static HashMap<String, Class<?>> types;
   

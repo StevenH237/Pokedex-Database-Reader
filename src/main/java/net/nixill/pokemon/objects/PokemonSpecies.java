@@ -7,6 +7,26 @@ import java.util.List;
 import lombok.Getter;
 import net.nixill.pokemon.objects.factory.DBObjectReader;
 
+/**
+ * Pokémon are fictional creatures that are central to the Pokémon
+ * franchise. They come in various different species with many different
+ * origins, and have the ability to manipulate various elemental energies
+ * to engage in combat with one another.
+ * <p>
+ * A PokemonSpecies object is an instance of one species of Pokémon,
+ * including all of the various forms that species can take.
+ * <p>
+ * A Pokemon object is more specific; there is always at least one Pokemon
+ * for each PokemonSpecies, but when there are multiple forms of a Pokémon
+ * species that learn different moves, have different abilities or types,
+ * or have other battle-relevant differences, they use distinct Pokemon
+ * that are part of the same PokemonSpecies.
+ * <p>
+ * A PokemonForm object is even more specific than that; there is always at
+ * least one PokemonForm for each Pokemon. Multiple PokemonForms for a
+ * Pokemon exist when there are cosmetic differences between members of the
+ * same Pokemon besides gender dimorphism.
+ */
 public class PokemonSpecies extends DBObject {
   private static HashMap<String, Class<?>> types;
   
